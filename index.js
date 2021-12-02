@@ -1,30 +1,33 @@
-function myFunction() {
-    var input, filter, ul, li, a, i, txtValue;
-    input = document.getElementById("myInput");
+function searchTag(e) {
+    var input, filter,cards, div,i,txtValue, tet;
+    input = document.getElementById('myTags')
     filter = input.value.toLowerCase()
-    /*    ul = document.getElementById("myUL");
-        li = ul.getElementsByTagName("li");
-        for (i = 0; i < li.length; i++) {
-            a = li[i].getElementsByTagName("a")[0];
-            txtValue = a.textContent || a.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-            } else {
-                li[i].style.display = "none";
-            }
-        } */
+    cards = document.getElementById('cards')
+    div = cards.getElementsByTagName('div')
+
+    for(i = 0; i < div.length; i++){
+        tet = div[i].getElementsByTagName('p')[0]
+        txtValue = tet.textContent || a.innerText
+        if(txtValue.toLowerCase().indexOf(filter) > -1){
+            div[i].style.display = ''
+        }else{
+                div[i].style.display = 'none'
+            
+        }
+    }
 }
 
 function getFetch() {
+    var lang = document.getElementById('lan')
+    if(lang == undefined){var langs = "fr"}else{ var langs = lang.value}
+
     var input = document.getElementById("mySearch");
-    const filtre = input.value.toLowerCase()
-    console.log(filtre)
-    fetch(`https://pixabay.com/api/?key=24591764-cd034cded2148b0ee5930661d&q=${filtre}&image_type=photo`)
+    if(input.value == ""){ var filtre = "sun" }else{ var filtre = input.value.toLowerCase()}
+    fetch(`https://pixabay.com/api/?key=24591764-cd034cded2148b0ee5930661d&q=${filtre}&image_type=photo&per_page=50&lang=${langs}`)
         .then(function (response) {
             response.json()
                 .then(function (pixdata) {
                     const datas = pixdata.hits
-                    console.log(pixdata.hits[0].tags)
                     divClear()
                     pixData(datas)
                 });
@@ -34,6 +37,8 @@ function getFetch() {
         });
 
 }
+getFetch()
+
 function divClear(){
     document.getElementById('app').innerHTML= ''
 }
@@ -45,6 +50,7 @@ function pixData(data) {
 
     const row = document.createElement('div')
     row.className = "row"
+    row.setAttribute('id', 'cards')
     container.appendChild(row)
 
 
@@ -69,10 +75,11 @@ function pixData(data) {
 
         const cardbody = document.createElement('div')
         cardbody.setAttribute('class', "card-body")
+        
 
         const cardtxt = document.createElement('p')
         cardtxt.setAttribute('class', "card-text")
-        cardtxt.innerHTML = `De ${data[i].user}`
+        cardtxt.innerHTML = `De ${data[i].user} | Tags: ${data[i].tags}`
 
         card.appendChild(img)
         card.appendChild(cardbody)
