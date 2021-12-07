@@ -22,7 +22,7 @@ function getFetch() {
     if(lang == undefined){var langs = "fr"}else{ var langs = lang.value}
 
     var input = document.getElementById("mySearch");
-    if(input.value == ""){ var filtre = "sun" }else{ var filtre = input.value.toLowerCase()}
+    if(input.value == ""){ var filtre = "secret" }else{ var filtre = input.value.toLowerCase()}
     fetch(`https://pixabay.com/api/?key=24591764-cd034cded2148b0ee5930661d&q=${filtre}&image_type=photo&per_page=50&lang=${langs}`)
         .then(function (response) {
             response.json()
